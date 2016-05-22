@@ -17,3 +17,6 @@ hs_err_pid*
 .settings/
 .idea/
 *.iml
+
+# Build directory
+target/

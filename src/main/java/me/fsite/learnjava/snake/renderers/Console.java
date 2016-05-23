@@ -18,15 +18,15 @@ import java.util.ArrayList;
  */
 public class Console {
     private Terminal terminal;
-    private Screen s;
-    private Logic l;
+    private Screen screen;
+    private Logic logic;
 
-    public Console(Logic l) {
-        this.l = l;
+    public Console(Logic logic) {
+        this.logic = logic;
         try {
             terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(50, 20)).createTerminal();
             terminal.setCursorVisible(false);
-            s = new TerminalScreen(terminal);
+            screen = new TerminalScreen(terminal);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class Console {
                         break;
 
                     case ArrowRight:
-                        l.processRightKey();
+                        logic.processRightKey();
                         break;
 
                     default:
@@ -61,23 +61,23 @@ public class Console {
             e.printStackTrace();
         }
 
-        ArrayList<GameObject> objectsList = l.getObjectsList();
+        ArrayList<GameObject> objectsList = logic.getObjectsList();
         try {
-            s.clear();
-            s.startScreen();
-            s.setCursorPosition(null);
+            screen.clear();
+            screen.startScreen();
+            screen.setCursorPosition(null);
         } catch (IOException e) {
             e.printStackTrace();
         }
         for (int i = objectsList.size(); i > 0; i--) {
             GameObject o = objectsList.get(i - 1);
 
-            s.setCharacter(o.getX(), o.getY(), new TextCharacter(o.getC()));
+            screen.setCharacter(o.getX(), o.getY(), new TextCharacter(o.getC()));
         }
 
         try {
 
-            s.refresh(Screen.RefreshType.DELTA);
+            screen.refresh(Screen.RefreshType.DELTA);
 
         } catch (IOException e) {
             e.printStackTrace();
